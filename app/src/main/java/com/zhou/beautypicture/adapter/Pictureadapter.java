@@ -1,9 +1,9 @@
 package com.zhou.beautypicture.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zhou.beautypicture.base.BaseRecycleViewAdapter;
 import com.zhou.beautypicture.base.BaseRecycleViewHoldler;
 
 import org.jetbrains.annotations.NotNull;
