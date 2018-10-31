@@ -2,6 +2,7 @@ package com.zhou.beautypicture.model.main
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -39,24 +40,15 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         top_tv_title.setText(R.string.main_top_title)
         adapter = PicturesAdapter(ArrayList<PictureDTO>())
         val staggeredGridLayoutManager: StaggeredGridLayoutManager? = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//        staggeredGridLayoutManager?.gapStrategy=StaggeredGridLayoutManager.GAP_HANDLING_NONE
         staggeredGridLayoutManager?.isAutoMeasureEnabled = true
         main_rl_picture.layoutManager = staggeredGridLayoutManager
         main_rl_picture.setHasFixedSize(true)
-//        main_rl_picture.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                // State有三种状态：SCROLL_STATE_IDLE（静止）、SCROLL_STATE_DRAGGING（上升）、SCROLL_STATE_SETTLING（下落）
-//                if (newState == SCROLL_STATE_IDLE) {
-//                    adapter?.setScrolling(false)
-//                    ImageUtil.resume(this@MainActivity)
-////                        adapter?.notifyDataSetChanged()
-//                } else {
-//                    adapter?.setScrolling(true)
-//                    ImageUtil.pause(this@MainActivity)
-//                }
-//            }
-//        })
+        main_rl_picture.addItemDecoration(MyDecoration(this))
+        adapter?.setPictureClickListener(object : PicturesAdapter.PictureClickListener{
+            override fun onClickListener(pictureDTO: PictureDTO, position: Int) {
+                LogcatUtil.d(position)
+            }
+        })
     }
 
     override fun showPictures(responseDTO: ResponseDTO) {

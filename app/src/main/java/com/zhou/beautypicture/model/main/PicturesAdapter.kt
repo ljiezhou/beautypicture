@@ -31,13 +31,17 @@ class PicturesAdapter(var pictures: List<PictureDTO>) : BaseRecycleViewAdapter<P
     override fun onBindViewHolder(viewHolder: PicturesHolder?, position: Int) {
         super.onBindViewHolder(viewHolder, position)
         val picture: PictureDTO = pictures.get(position)
-        viewHolder?.ivPicture?.adjustViewBounds = true
-        ImageUtil.loadImage(viewHolder?.itemView?.context, picture.url, viewHolder?.ivPicture)
+        viewHolder?.ivPicture?.setScale(picture.width, picture.height)
         viewHolder?.tvWho?.setText(picture.who)
+        ImageUtil.loadImage(viewHolder?.itemView?.context, picture.url, viewHolder?.ivPicture)
+        viewHolder?.itemView?.setOnClickListener(View.OnClickListener {
+            pictureClickListener?.onClickListener(picture,position)
+        })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PicturesHolder {
         val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.main_rl_item, null)
+
         return PicturesHolder(view)
     }
 
@@ -77,5 +81,11 @@ class PicturesAdapter(var pictures: List<PictureDTO>) : BaseRecycleViewAdapter<P
             super.onScrolled(recyclerView, dx, dy)
         }
     }
-
+    private var pictureClickListener: PictureClickListener? = null
+    fun setPictureClickListener(pictureClickListener: PictureClickListener){
+        this.pictureClickListener = pictureClickListener
+    }
+    interface PictureClickListener {
+        fun onClickListener(pictureDTO: PictureDTO, position: Int)
+    }
 }

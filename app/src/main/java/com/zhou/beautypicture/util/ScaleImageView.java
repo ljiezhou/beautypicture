@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import java.math.BigDecimal;
+
 /**
  * Created by zhou on 2018/4/1.
  */
@@ -35,10 +37,9 @@ public class ScaleImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        LogcatUtil.d("获取到的宽：" + MeasureSpec.getSize(widthMeasureSpec) + " 获取到的高：" + MeasureSpec.getSize(heightMeasureSpec));
-
-
-//        setMeasuredDimension(imageWidth, imageHeight);
-        LogcatUtil.d("设置的宽：" + imageWidth + "设置的高：" + imageHeight);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        float scale = new BigDecimal(imageHeight).divide(new BigDecimal(imageWidth), 2, BigDecimal.ROUND_HALF_DOWN).floatValue();
+        int height = (int) (width * scale);
+        setMeasuredDimension(width, height);
     }
 }
